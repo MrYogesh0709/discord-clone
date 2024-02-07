@@ -1,5 +1,5 @@
 'use client'
-
+import { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 
@@ -22,13 +22,15 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { initialModalSchema, initialModalValues } from '@/lib/validation'
-import { useEffect, useState } from 'react'
+import FileUpload from '@/components/file-upload'
 
 export const InitialModel = () => {
   const [isMounted, setIsMounted] = useState(false)
+
   useEffect(() => {
     setIsMounted(true)
   }, [])
+
   const form = useForm<initialModalValues>({
     resolver: zodResolver(initialModalSchema),
     defaultValues: {
@@ -44,7 +46,7 @@ export const InitialModel = () => {
   } = form
 
   async function onSubmit(values: initialModalValues) {
-    alert(JSON.stringify(values))
+    console.log(values)
   }
 
   if (!isMounted) {
@@ -67,7 +69,22 @@ export const InitialModel = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
               <div className="flex items-center justify-center text-center">
-                todo:imag upload
+                <FormField
+                  control={form.control}
+                  name="imageUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <FileUpload
+                          endpoint="serverImage"
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
               <FormField
                 control={control}
