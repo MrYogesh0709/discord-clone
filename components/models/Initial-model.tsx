@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
 
 import {
   Dialog,
@@ -20,13 +22,13 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
 import { initialModalSchema, initialModalValues } from '@/lib/validation'
 import FileUpload from '@/components/file-upload'
+import FormSubmitButton from '../form-submitBtn'
 
 export const InitialModel = () => {
   const [isMounted, setIsMounted] = useState(false)
-
+  const router = useRouter()
   useEffect(() => {
     setIsMounted(true)
   }, [])
@@ -46,7 +48,15 @@ export const InitialModel = () => {
   } = form
 
   async function onSubmit(values: initialModalValues) {
-    console.log(values)
+    try {
+      await axios.post('/api/servers', values)
+
+      form.reset()
+      router.refresh()
+      window.location.reload()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   if (!isMounted) {
@@ -66,7 +76,11 @@ export const InitialModel = () => {
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="space-y-8"
+            noValidate
+          >
             <div className="space-y-8 px-6">
               <div className="flex items-center justify-center text-center">
                 <FormField
@@ -108,9 +122,7 @@ export const InitialModel = () => {
               />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button disabled={isSubmitting} variant="primary">
-                Create
-              </Button>
+              <FormSubmitButton loading={isSubmitting}>Create</FormSubmitButton>
             </DialogFooter>
           </form>
         </Form>
