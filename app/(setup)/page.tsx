@@ -1,6 +1,6 @@
 import { InitialModel } from '@/components/models/Initial-model'
 import db from '@/lib/db'
-import initialProfile from '@/lib/inital-profile'
+import initialProfile from '@/lib/initial-profile'
 import { redirect } from 'next/navigation'
 
 //?Info :=> This is Entry Point of Application
