@@ -6,6 +6,8 @@ import { InviteModel } from '@/components/models/invite-model'
 import { EditServerModal } from '@/components/models/edit-server-model'
 import { MembersModel } from '@/components/models/members-model'
 import { CreateChannelModel } from '@/components/models/create-channel-model'
+import { LeaveServerModel } from '@/components/models/leave-server-model'
+import { DeleteServerModel } from '../models/delete-server-model'
 
 //! this is solve of hydration error model is having problem with server side render
 export const ModalProvider = () => {
@@ -26,6 +28,8 @@ export const ModalProvider = () => {
       <EditServerModal />
       <MembersModel />
       <CreateChannelModel />
+      <LeaveServerModel />
+      <DeleteServerModel />
     </>
   )
 }

@@ -26,6 +26,7 @@ import { initialModalSchema, initialModalValues } from '@/lib/validation'
 import FileUpload from '@/components/file-upload'
 import FormSubmitButton from '../form-submitBtn'
 
+//?Info => This model is start of App with create server
 export const InitialModel = () => {
   const [isMounted, setIsMounted] = useState(false)
   const router = useRouter()

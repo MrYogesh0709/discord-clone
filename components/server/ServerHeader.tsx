@@ -29,8 +29,7 @@ interface ServerHeaderProps {
 const ServerHeader = ({ server, role }: ServerHeaderProps) => {
   const { onOpen } = useModal()
   const isAdmin = role === MemberRole.ADMIN
-  const isModerator = isAdmin || MemberRole.MODERATOR
-
+  const isModerator = isAdmin || role === MemberRole.MODERATOR
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="focus:outline-none" asChild>
@@ -78,13 +77,19 @@ const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {isModerator && <DropdownMenuSeparator />}
         {isAdmin && (
-          <DropdownMenuItem className="cursor-pointer px-3 py-2 text-sm text-rose-500">
+          <DropdownMenuItem
+            onClick={() => onOpen('deleteServer', { server })}
+            className="cursor-pointer px-3 py-2 text-sm text-rose-500"
+          >
             Delete Server
             <TrashIcon className="ml-auto h-4 w-4" />
           </DropdownMenuItem>
         )}
         {!isAdmin && (
-          <DropdownMenuItem className="cursor-pointer px-3 py-2 text-sm text-rose-500">
+          <DropdownMenuItem
+            onClick={() => onOpen('leaveServer', { server })}
+            className="cursor-pointer px-3 py-2 text-sm text-rose-500"
+          >
             Leave Server
             <LogOut className="ml-auto h-4 w-4" />
           </DropdownMenuItem>
