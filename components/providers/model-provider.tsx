@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { CreateServerModel } from '@/components/models/create-server-model'
 import { InviteModel } from '@/components/models/invite-model'
 import { EditServerModal } from '@/components/models/edit-server-model'
+import { MembersModel } from '@/components/models/members-model'
 
 //! this is solve of hydration error model is having problem with server side render
 export const ModalProvider = () => {
@@ -22,6 +23,7 @@ export const ModalProvider = () => {
       <CreateServerModel />
       <InviteModel />
       <EditServerModal />
+      <MembersModel />
     </>
   )
 }
