@@ -122,6 +122,7 @@ const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
                   name: member.profile.name,
                   icon: roleIconMap[member.role],
                   imageUrl: member.profile.imageUrl,
+                  username: member.profile.username,
                 })),
               },
             ]}

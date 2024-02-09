@@ -24,6 +24,7 @@ interface ServerSearchProps {
           name: string
           id: string
           imageUrl?: string
+          username?: string
         }[]
       | undefined
   }[]
@@ -83,8 +84,12 @@ const ServerSearch = ({ data }: ServerSearchProps) => {
             if (!data?.length) return null
             return (
               <CommandGroup heading={label} key={label}>
-                {data?.map(({ id, icon, name, imageUrl }) => (
-                  <CommandItem key={id} onSelect={() => onClick({ id, type })}>
+                {data?.map(({ id, icon, name, imageUrl, username }) => (
+                  <CommandItem
+                    key={id}
+                    onSelect={() => onClick({ id, type })}
+                    className="cursor-pointer"
+                  >
                     {icon}
                     {type === 'member' && (
                       <UserAvatar
@@ -96,6 +101,13 @@ const ServerSearch = ({ data }: ServerSearchProps) => {
                     <span className={`${type === 'member' && 'ml-3'}`}>
                       {name}
                     </span>
+                    {username && (
+                      <span
+                        className={`${type === 'member' && 'ml-3 text-muted-foreground'}`}
+                      >
+                        ({username})
+                      </span>
+                    )}
                   </CommandItem>
                 ))}
               </CommandGroup>
