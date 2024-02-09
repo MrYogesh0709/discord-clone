@@ -12,6 +12,7 @@ import {
   CommandList,
 } from '@/components/ui/command'
 import { useParams, useRouter } from 'next/navigation'
+import UserAvatar from '../UserAvatar'
 
 interface ServerSearchProps {
   data: {
@@ -22,6 +23,7 @@ interface ServerSearchProps {
           icon: React.ReactNode
           name: string
           id: string
+          imageUrl?: string
         }[]
       | undefined
   }[]
@@ -81,9 +83,19 @@ const ServerSearch = ({ data }: ServerSearchProps) => {
             if (!data?.length) return null
             return (
               <CommandGroup heading={label} key={label}>
-                {data?.map(({ id, icon, name }) => (
+                {data?.map(({ id, icon, name, imageUrl }) => (
                   <CommandItem key={id} onSelect={() => onClick({ id, type })}>
-                    {icon} <span>{name}</span>
+                    {icon}
+                    {type === 'member' && (
+                      <UserAvatar
+                        src={imageUrl}
+                        name={name}
+                        className="md:h-8 md:w-8"
+                      />
+                    )}
+                    <span className={`${type === 'member' && 'ml-3'}`}>
+                      {name}
+                    </span>
                   </CommandItem>
                 ))}
               </CommandGroup>

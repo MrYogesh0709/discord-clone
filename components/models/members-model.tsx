@@ -43,9 +43,11 @@ import {
 } from 'lucide-react'
 
 const roleIconMap = {
-  GUEST: null,
-  MODERATOR: <ShieldCheck className="ml-2 h-4 w-4 text-indigo-500" />,
-  ADMIN: <ShieldAlert className="ml-2 h-4 w-4 text-rose-500" />,
+  [MemberRole.GUEST]: null,
+  [MemberRole.MODERATOR]: (
+    <ShieldCheck className="ml-2 h-4 w-4 text-indigo-500" />
+  ),
+  [MemberRole.ADMIN]: <ShieldAlert className="ml-2 h-4 w-4 text-rose-500" />,
 }
 
 export const MembersModel = () => {

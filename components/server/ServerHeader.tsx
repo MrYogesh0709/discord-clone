@@ -3,6 +3,8 @@
 import { ServerMemberWithProfiles } from '@/type'
 import { MemberRole } from '@prisma/client'
 
+import { useModal } from '@/hooks/use-modal-store'
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,7 +21,6 @@ import {
   UserPlusIcon,
   Users,
 } from 'lucide-react'
-import { useModal } from '@/hooks/use-modal-store'
 
 interface ServerHeaderProps {
   server: ServerMemberWithProfiles
@@ -68,7 +69,7 @@ const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         )}
         {isModerator && (
           <DropdownMenuItem
-            onClick={() => onOpen('createChannel', { server })}
+            onClick={() => onOpen('createChannel')}
             className="cursor-pointer px-3 py-2 text-sm"
           >
             Create Channel

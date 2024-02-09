@@ -34,11 +34,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useEffect } from 'react'
 
 export const CreateChannelModel = () => {
-  const { isOpen, onClose, type } = useModal()
+  const { isOpen, onClose, type, data } = useModal()
   const router = useRouter()
   const params = useParams()
+  const { channelType } = data
 
   const isModelOpen = isOpen && type === 'createChannel'
 
@@ -51,7 +53,7 @@ export const CreateChannelModel = () => {
     resolver: zodResolver(createChannelSchema),
     defaultValues: {
       name: '',
-      type: ChannelType.TEXT,
+      type: channelType || ChannelType.TEXT,
     },
   })
 
@@ -60,6 +62,14 @@ export const CreateChannelModel = () => {
     control,
     formState: { isSubmitting },
   } = form
+
+  useEffect(() => {
+    if (channelType) {
+      form.setValue('type', channelType)
+    } else {
+      form.setValue('type', ChannelType.TEXT)
+    }
+  }, [form, channelType])
 
   async function onSubmit(values: createChannelValues) {
     try {
@@ -121,7 +131,7 @@ export const CreateChannelModel = () => {
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
-                      disable={isSubmitting}
+                      disabled={isSubmitting}
                     >
                       <FormControl>
                         <SelectTrigger className="border-0 bg-zinc-300/50 capitalize text-black outline-none ring-offset-0 focus:ring-0 focus:ring-offset-0">
