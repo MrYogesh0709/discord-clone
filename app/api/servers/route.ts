@@ -13,7 +13,11 @@ export async function POST(req: Request) {
     if (!profile) {
       return new NextResponse('Unauthorized', { status: 401 })
     }
-
+    if (name.length > 20) {
+      return new NextResponse('Server name cannot be more than 20 characters', {
+        status: 400,
+      })
+    }
     const server = await db.server.create({
       data: {
         profileId: profile.id,

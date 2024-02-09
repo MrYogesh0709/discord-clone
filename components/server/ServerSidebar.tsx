@@ -185,7 +185,12 @@ const ServerSidebar = async ({ serverId }: ServerSidebarProps) => {
         )}
         {!!members?.length && (
           <div className="mb-2">
-            <ServerSection sectionType="members" role={role} label="Members" />
+            <ServerSection
+              sectionType="members"
+              role={role}
+              label="Members"
+              server={server}
+            />
             {members.map((member) => (
               <ServerMember key={member.id} member={member} server={server} />
             ))}

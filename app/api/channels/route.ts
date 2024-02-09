@@ -17,8 +17,18 @@ export async function POST(req: Request) {
     if (!serverId) {
       return new NextResponse('Server ID missing', { status: 401 })
     }
-    if (name === 'general') {
-      return new NextResponse('Name can not be general', { status: 400 })
+    if (name.toLowerCase() === 'general') {
+      return new NextResponse('Channel name cannot be "general"', {
+        status: 400,
+      })
+    }
+    if (name.length > 15) {
+      return new NextResponse(
+        'Channel name cannot be more than 15 characters',
+        {
+          status: 400,
+        }
+      )
     }
     const server = await db.server.update({
       where: {
