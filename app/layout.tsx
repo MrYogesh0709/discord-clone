@@ -10,6 +10,7 @@ import { ourFileRouter } from './api/uploadthing/core'
 
 import { ThemeProvider } from '@/components/providers/theme-provider'
 import { ModalProvider } from '@/components/providers/model-provider'
+import { SocketProvider } from '@/components/providers/socket-provider'
 
 const font = Open_Sans({ subsets: ['latin'] })
 
@@ -29,8 +30,10 @@ export default function RootLayout({
         <body className={cn(font.className, 'bg-white dark:bg-[#313338]')}>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-            <ModalProvider />
-            {children}
+            <SocketProvider>
+              <ModalProvider />
+              {children}
+            </SocketProvider>
           </ThemeProvider>
         </body>
       </html>
