@@ -23,3 +23,9 @@ export const createChannelSchema = z.object({
 })
 
 export type createChannelValues = z.infer<typeof createChannelSchema>
+
+export const ChatInputSchema = z.object({
+  content: z.string().min(1),
+})
+
+export type chatInputValues = z.infer<typeof ChatInputSchema>
