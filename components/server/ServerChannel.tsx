@@ -4,7 +4,7 @@ import { useParams, useRouter } from 'next/navigation'
 import { Channel, ChannelType, MemberRole, Server } from '@prisma/client'
 
 import { cn } from '@/lib/utils'
-import { useModal } from '@/hooks/use-modal-store'
+import { ModalType, useModal } from '@/hooks/use-modal-store'
 import { ActionTooltip } from '@/components/ActionTooltip'
 
 import { Edit, Hash, Lock, Mic, Trash, Video } from 'lucide-react'
@@ -22,7 +22,17 @@ const channelIconMap = {
 const ServerChannel = ({ channel, server, role }: ServerChannelProps) => {
   const { onOpen } = useModal()
   const params = useParams()
+  const router = useRouter()
   const Icon = channelIconMap[channel.type]
+
+  const onClick = () => {
+    router.push(`/servers/${server.id}/channels/${channel.id}`)
+  }
+  const onAction = (e: React.MouseEvent, action: ModalType) => {
+    e.stopPropagation()
+    onOpen(action, { channel, server })
+  }
+
   return (
     <button
       className={cn(
@@ -30,6 +40,7 @@ const ServerChannel = ({ channel, server, role }: ServerChannelProps) => {
         params?.channelId === channel.id &&
           'bg-zinc-700/30 dark:bg-zinc-700/90 dark:text-zinc-700 '
       )}
+      onClick={onClick}
     >
       <Icon className="h-5 w-5 flex-shrink-0 text-zinc-500 hover:text-zinc-500/30" />
       <p
@@ -45,13 +56,13 @@ const ServerChannel = ({ channel, server, role }: ServerChannelProps) => {
         <div className="ml-auto flex items-center gap-x-2">
           <ActionTooltip label="Edit">
             <Edit
-              onClick={() => onOpen('editChannel', { server, channel })}
+              onClick={(e) => onAction(e, 'editChannel')}
               className="hidden h-4 w-4 text-green-500 transition hover:text-green-600 group-hover:block dark:text-green-400 dark:hover:text-green-300"
             />
           </ActionTooltip>
           <ActionTooltip label="Delete">
             <Trash
-              onClick={() => onOpen('deleteChannel', { server, channel })}
+              onClick={(e) => onAction(e, 'deleteChannel')}
               className="hidden h-4 w-4 text-rose-500 transition hover:text-rose-600 group-hover:block dark:text-rose-400 dark:hover:text-rose-300"
             />
           </ActionTooltip>
