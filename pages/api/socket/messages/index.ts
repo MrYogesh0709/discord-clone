@@ -15,7 +15,9 @@ export default async function handler(
     const { content, fileUrl } = req.body
     const { serverId, channelId } = req.query
 
-    if (!profile) return res.status(401).json({ message: 'Unauthorized' })
+    if (!profile) {
+      return res.status(401).json({ message: 'Unauthorized' })
+    }
     if (!serverId) {
       return res.status(400).json({ message: 'ServerId is missing' })
     }
@@ -48,7 +50,7 @@ export default async function handler(
         serverId: serverId as string,
       },
     })
-    if (!channel) return res.status(404).json({ message: 'Server not found' })
+    if (!channel) return res.status(404).json({ message: 'Channel not found' })
 
     const member = server.members.find(
       (member) => member.profileId === profile.id
