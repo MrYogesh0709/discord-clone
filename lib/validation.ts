@@ -29,3 +29,9 @@ export const ChatInputSchema = z.object({
 })
 
 export type chatInputValues = z.infer<typeof ChatInputSchema>
+
+export const fileMessageModalSchema = z.object({
+  fileUrl: requiredString('Server image is required'),
+})
+
+export type fileMessageModalValues = z.infer<typeof fileMessageModalSchema>

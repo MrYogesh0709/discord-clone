@@ -1,11 +1,12 @@
 'use client'
 
+import qs from 'query-string'
 import axios from 'axios'
-import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useModal } from '@/hooks/use-modal-store'
 
 import {
   Dialog,
@@ -20,27 +21,31 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { initialModalSchema, initialModalValues } from '@/lib/validation'
+import {
+  fileMessageModalSchema,
+  fileMessageModalValues,
+} from '@/lib/validation'
 import FileUpload from '@/components/file-upload'
 import FormSubmitButton from '@/components/form-submitBtn'
 
 //?Info => This model is start of App with create server
-export const InitialModel = () => {
-  const [isMounted, setIsMounted] = useState(false)
+export const MessageFileModel = () => {
+  const {
+    isOpen,
+    onClose,
+    type,
+    data: { apiUrl, query },
+  } = useModal()
   const router = useRouter()
-  useEffect(() => {
-    setIsMounted(true)
-  }, [])
 
-  const form = useForm<initialModalValues>({
-    resolver: zodResolver(initialModalSchema),
+  const isModalOpen = isOpen && type === 'messageFile'
+
+  const form = useForm<fileMessageModalValues>({
+    resolver: zodResolver(fileMessageModalSchema),
     defaultValues: {
-      name: '',
-      imageUrl: '',
+      fileUrl: '',
     },
   })
 
@@ -50,32 +55,38 @@ export const InitialModel = () => {
     formState: { isSubmitting },
   } = form
 
-  async function onSubmit(values: initialModalValues) {
+  async function onSubmit(values: fileMessageModalValues) {
     try {
-      await axios.post('/api/servers', values)
+      const url = qs.stringifyUrl({
+        url: apiUrl || '',
+        query,
+      })
 
-      form.reset()
+      await axios.post(url, {
+        ...values,
+        content: values.fileUrl,
+      })
       router.refresh()
-      window.location.reload()
+      handleClose()
     } catch (error) {
       console.log(error)
     }
   }
 
-  if (!isMounted) {
-    return null
+  const handleClose = () => {
+    form.reset()
+    onClose()
   }
 
   return (
-    <Dialog open>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="overflow-hidden bg-white p-0 text-black">
         <DialogHeader className="px-6 pt-8">
           <DialogTitle className="text-center text-2xl font-bold">
-            Customize your server
+            Add an Attachment
           </DialogTitle>
           <DialogDescription className="text-center text-zinc-500">
-            Give your server a personality with a name and an image. You can
-            always change it later.
+            Send a File as Message
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -87,13 +98,13 @@ export const InitialModel = () => {
             <div className="space-y-8 px-6">
               <div className="flex items-center justify-center text-center">
                 <FormField
-                  control={form.control}
-                  name="imageUrl"
+                  control={control}
+                  name="fileUrl"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
                         <FileUpload
-                          endpoint="serverImage"
+                          endpoint="messageFile"
                           value={field.value}
                           onChange={field.onChange}
                         />
@@ -103,29 +114,9 @@ export const InitialModel = () => {
                   )}
                 />
               </div>
-              <FormField
-                control={control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-xs font-bold uppercase text-zinc-500 dark:text-secondary/70">
-                      Server Name
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="Enter Server Name"
-                        className="border-0 bg-zinc-300/50 text-black focus-visible:ring-0 focus-visible:ring-offset-0"
-                        disabled={isSubmitting}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </div>
             <DialogFooter className="bg-gray-100 px-6 py-4">
-              <FormSubmitButton loading={isSubmitting}>Create</FormSubmitButton>
+              <FormSubmitButton loading={isSubmitting}>Send</FormSubmitButton>
             </DialogFooter>
           </form>
         </Form>
