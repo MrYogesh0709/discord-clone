@@ -14,3 +14,9 @@ type NextApiResponseServerIo = NextApiResponse & {
     }
   }
 }
+
+type MessageWithMemberProfile = Message & {
+  member: Member & {
+    profile: Profile
+  }
+}
