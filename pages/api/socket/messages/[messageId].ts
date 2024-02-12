@@ -25,9 +25,6 @@ export default async function handler(
     if (!channelId) {
       return res.status(400).json({ message: 'channelId is missing' })
     }
-    if (!content) {
-      return res.status(400).json({ message: 'content is missing' })
-    }
 
     const server = await db.server.findFirst({
       where: {
@@ -105,6 +102,9 @@ export default async function handler(
       })
     }
     if (req.method === 'PATCH') {
+      if (!content) {
+        return res.status(400).json({ message: 'content is missing' })
+      }
       message = await db.message.update({
         where: {
           id: messageId as string,

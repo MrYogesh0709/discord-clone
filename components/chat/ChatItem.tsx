@@ -4,10 +4,11 @@ import Image from 'next/image'
 import qs from 'query-string'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { Member, MemberRole, Profile } from '@prisma/client'
 
+import { useModal } from '@/hooks/use-modal-store'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { cn } from '@/lib/utils'
@@ -58,8 +59,9 @@ const ChatItem = ({
   socketUrl,
 }: ChatItemProps) => {
   const router = useRouter()
+  const params = useParams()
   const [isEditing, setIsEditing] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
+  const { onOpen } = useModal()
 
   const form = useForm<chatInputValues>({
     resolver: zodResolver(ChatInputSchema),
@@ -115,10 +117,18 @@ const ChatItem = ({
     }
   }
 
+  const onMemberClick = () => {
+    if (member.id === currentMember.id) return
+    router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
+  }
+
   return (
     <div className="group relative flex w-full items-center p-4 transition hover:bg-black/5">
       <div className="group flex w-full items-start gap-x-2">
-        <div className="cursor-pointer transition hover:drop-shadow-md">
+        <div
+          onClick={onMemberClick}
+          className="cursor-pointer transition hover:drop-shadow-md"
+        >
           <UserAvatar
             src={member.profile.imageUrl}
             name={member.profile.name}
@@ -128,7 +138,10 @@ const ChatItem = ({
           <div className="flex items-center gap-x-2">
             <div className="flex w-full flex-col">
               <div className="flex items-center">
-                <p className="cursor-pointer text-sm font-semibold hover:underline">
+                <p
+                  onClick={onMemberClick}
+                  className="cursor-pointer text-sm font-semibold hover:underline"
+                >
                   {member.profile.name}
                 </p>
                 <ActionTooltip label={member.role}>
@@ -229,17 +242,25 @@ const ChatItem = ({
         </div>
       </div>
       {canDeleteMessage && (
-        <div className="absolute right-5 top-2 hidden items-center gap-x-2 group-hover:flex">
+        <div className="absolute -top-2 right-5 hidden items-center gap-x-2 rounded-sm border bg-white p-1 group-hover:flex dark:bg-zinc-800">
           {canEditMessage && (
             <ActionTooltip label="Edit">
               <Edit
                 onClick={() => setIsEditing(true)}
-                className="ml-auto hidden  h-4 w-4 cursor-pointer text-green-500 transition hover:text-green-600 group-hover:block dark:text-green-400 dark:hover:text-green-300"
+                className="ml-auto h-4 w-4 cursor-pointer text-zinc-500 transition hover:text-zinc-600 dark:hover:text-zinc-300"
               />
             </ActionTooltip>
           )}
           <ActionTooltip label="Delete">
-            <Trash className="ml-auto hidden h-4 w-4 text-rose-500 transition hover:text-rose-600 group-hover:block dark:text-rose-400 dark:hover:text-rose-300" />
+            <Trash
+              onClick={() =>
+                onOpen('deleteMessage', {
+                  apiUrl: `${socketUrl}/${id}`,
+                  query: socketQuery,
+                })
+              }
+              className="ml-auto h-4 w-4 cursor-pointer text-zinc-500 transition hover:text-zinc-600 dark:hover:text-zinc-300"
+            />
           </ActionTooltip>
         </div>
       )}
