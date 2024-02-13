@@ -79,6 +79,7 @@ const MemberPage = async ({
             socketQuery={{
               conversationId: conversation.id,
             }}
+            username={otherMember.profile.username}
           />
           <ChatInput
             name={otherMember.profile.name}

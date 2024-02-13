@@ -3,9 +3,11 @@ import { Hash } from 'lucide-react'
 const ChatWelcome = ({
   type,
   name,
+  username,
 }: {
   name: string
   type: 'channel' | 'conversation'
+  username?: string
 }) => {
   return (
     <div className="mb-4 space-y-2 px-4">
@@ -14,10 +16,17 @@ const ChatWelcome = ({
           <Hash className="h-12 w-12 text-white" />
         </div>
       )}
-      <p className="text-xl font-bold md:text-3xl">
-        {type === 'channel' && 'Welcome to #'}
-        {name}
-      </p>
+      <div className="flex items-end gap-2">
+        <p className="text-xl font-bold md:text-3xl">
+          {type === 'channel' && 'Welcome to #'}
+          {name}
+        </p>
+        {type === 'conversation' && (
+          <span className="mx-2 text-sm font-thin text-zinc-900 dark:text-zinc-300">
+            #{username}
+          </span>
+        )}
+      </div>
       <p className="text-sm text-zinc-600 dark:text-zinc-400">
         {type === 'channel'
           ? `This is the start of the ${name} channel.`

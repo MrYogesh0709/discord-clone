@@ -32,11 +32,6 @@ const ChatHeader = ({
         />
       )}
       <p className="text-md font-semibold text-black dark:text-white">{name}</p>
-      {type === 'conversation' && (
-        <span className="mx-2 text-sm font-thin text-zinc-900 dark:text-zinc-300">
-          ({username})
-        </span>
-      )}
       <div className="ml-auto flex items-center">
         {type === 'conversation' && <ChatVideo />}
         <SocketIndicator />
