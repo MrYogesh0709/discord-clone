@@ -3,8 +3,10 @@
 import { Fragment } from 'react'
 import { Member } from '@prisma/client'
 import { format } from 'date-fns'
-import { useChatQuery } from '@/hooks/use-chat-query'
 import { MessageWithMemberProfile } from '@/type'
+
+import { useChatQuery } from '@/hooks/use-chat-query'
+import { useChatSocket } from '@/hooks/use-chat-socket'
 
 import ChatItem from './ChatItem'
 import ChatWelcome from './ChatWelcome'
@@ -36,9 +38,13 @@ const ChatMessages = ({
   type,
 }: ChatMessagesProps) => {
   const queryKey = `chat:${chatId}`
+  const addKey = `chat:${chatId}:messages`
+  const updateKey = `chat:${chatId}:messages:update`
+
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
     useChatQuery({ queryKey, apiUrl, paramKey, paramValue })
 
+  useChatSocket({ addKey, updateKey, queryKey })
   if (status === 'pending') {
     return (
       <div className="flex flex-1 flex-col items-center justify-center">

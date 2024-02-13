@@ -21,7 +21,6 @@ import FormSubmitButton from '@/components/form-submitBtn'
 export const DeleteChannelModel = () => {
   const [isLoading, setIsLoading] = useState(false)
   const { isOpen, onClose, type, data } = useModal()
-  const router = useRouter()
 
   const isModelOpen = isOpen && type === 'deleteChannel'
   const { server, channel } = data
@@ -36,7 +35,6 @@ export const DeleteChannelModel = () => {
         },
       })
       await axios.delete(url)
-      router.refresh()
       onClose()
     } catch (error) {
       console.log(error)

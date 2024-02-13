@@ -109,7 +109,6 @@ const ChatItem = ({
         query: socketQuery,
       })
       await axios.patch(url, values)
-      router.refresh()
       setIsEditing(false)
       form.reset()
     } catch (error) {
