@@ -1,6 +1,6 @@
 'use client'
 
-import { Plus } from 'lucide-react'
+import { Plus, Send, SendHorizonalIcon, SendIcon } from 'lucide-react'
 
 import qs from 'query-string'
 import axios from 'axios'
@@ -14,6 +14,7 @@ import { ChatInputSchema, chatInputValues } from '@/lib/validation'
 import { Input } from '@/components/ui/input'
 import EmojiPicker from '@/components/emoji-picker'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
+import { Button } from '../ui/button'
 
 interface ChatInputProps {
   apiUrl: string
@@ -74,12 +75,18 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                     placeholder={`Message ${type === 'conversation' ? name : '#' + name}`}
                     {...field}
                   />
-                  <div className="absolute right-8 top-7">
+                  <div className="absolute right-8 top-7 flex gap-x-2">
                     <EmojiPicker
                       onChange={(emoji: string) =>
                         field.onChange(`${field.value} ${emoji}`)
                       }
                     />
+                    <button type="submit">
+                      <SendHorizonalIcon
+                        type="submit"
+                        className="text-zinc-500 transition hover:text-zinc-600 dark:text-zinc-300 dark:hover:text-zinc-400"
+                      />
+                    </button>
                   </div>
                 </div>
               </FormControl>
