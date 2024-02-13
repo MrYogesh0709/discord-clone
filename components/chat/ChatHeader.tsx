@@ -3,6 +3,7 @@ import UserAvatar from '@/components/UserAvatar'
 import { SocketIndicator } from '@/components/socket-indicator'
 
 import { Hash } from 'lucide-react'
+import ChatVideo from './ChatVideo'
 interface ChatHeaderProps {
   serverId: string
   name: string
@@ -37,6 +38,7 @@ const ChatHeader = ({
         </span>
       )}
       <div className="ml-auto flex items-center">
+        {type === 'conversation' && <ChatVideo />}
         <SocketIndicator />
       </div>
     </div>
