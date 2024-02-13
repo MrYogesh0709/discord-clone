@@ -8,15 +8,21 @@ export const SocketIndicator = () => {
 
   if (!isConnected) {
     return (
-      <Badge variant="outline" className="border-none bg-yellow-600 text-white">
+      <Badge
+        variant="outline"
+        className="border-none bg-yellow-600 text-xs text-white"
+      >
         fallback:Polling every 1s
       </Badge>
     )
   }
 
   return (
-    <Badge variant="outline" className="border-none bg-emerald-600 text-white">
-      Live:Real-time updates
+    <Badge
+      variant="outline"
+      className="border-none bg-emerald-600 text-xs text-white"
+    >
+      Live:Real-time
     </Badge>
   )
 }

@@ -23,6 +23,7 @@ interface ChatMessagesProps {
   paramKey: 'channelId' | 'conversationId'
   paramValue: string
   type: 'channel' | 'conversation'
+  username?: string
 }
 
 const DATE_FORMAT = 'd MMM yyyy,HH:mm'
@@ -37,6 +38,7 @@ const ChatMessages = ({
   paramKey,
   paramValue,
   type,
+  username,
 }: ChatMessagesProps) => {
   const queryKey = `chat:${chatId}`
   const addKey = `chat:${chatId}:messages`
@@ -85,7 +87,9 @@ const ChatMessages = ({
   return (
     <div ref={chatRef} className="flex flex-1 flex-col overflow-y-auto py-4">
       {!hasNextPage && <div className="flex-1" />}{' '}
-      {!hasNextPage && <ChatWelcome type={type} name={name} />}
+      {!hasNextPage && (
+        <ChatWelcome type={type} name={name} username={username} />
+      )}
       {hasNextPage && (
         <div className="flex justify-center">
           {isFetchingNextPage ? (
