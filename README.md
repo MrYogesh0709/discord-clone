@@ -62,3 +62,10 @@ I'm a full stack developer...
 ## Feedback
 
 If you have any feedback, please reach out to us at yogeshvanzara98@gmail.com
+
+
+## FAQ
+
+#### It's not loading properly?
+
+Wait for few Seconds server goes down if there is no current log it will be active.
