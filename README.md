@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Discord Clone
 
-## Getting Started
+Discord Clone Build With Next.js 14 + Typescript + shandcn/ui.
 
-First, run the development server:
+## Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+https://discord-eiag.onrender.com
+
+## Documation
+
+- clerk Authentication https://clerk.com
+- Aiven https://console.aiven.io used for MySQL Database which gives free tier.
+- LiveKit https://livekit.io used which is the open-source WebRTC stack for building scalable, real-time audio and video experiences into your application.
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+```
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=YOUR_CLERK_PUBLISH_KEY
+CLERK_SECRET_KEY=YOUR_CLERK_SECRET_KEY
+
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/
+
+DATABASE_URL=YOUR_DATABASE_URL
+
+UPLOADTHING_SECRET=YOUR_UPLOADTHING_SECRET
+UPLOADTHING_APP_ID=YOUR_UPLOADTHING_ID
+
+LIVEKIT_API_KEY=YOUR_LIVEkIT_API_KEY
+LIVEKIT_API_SECRET=YOUR_LIVEkIT_API_SECRET
+NEXT_PUBLIC_LIVEKIT_URL=YOUR_LIVEkIT_URL
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Install my-project with npm
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+  npm install discord-clone
+  cd discord-clone
+  npm run dev
+```
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js 14 + Typescript + shadcn/ui
+- Clerk Authentication
+- file upload with uploadthing
+- form handling with react hook form and validation with zod
+- Prisma + MySQL
+- socket.io Live chat
+- WebRTC (LiveKit) For Vedio + Audio Stream
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 About Me
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+I'm a full stack developer...
 
-## Deploy on Vercel
+## Feedback
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+If you have any feedback, please reach out to us at yogeshvanzara98@gmail.com
