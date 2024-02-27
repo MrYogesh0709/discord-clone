@@ -24,7 +24,6 @@ interface ChatInputProps {
 
 const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
   const { onOpen } = useModal()
-  const router = useRouter()
   const form = useForm<chatInputValues>({
     resolver: zodResolver(ChatInputSchema),
     defaultValues: {
@@ -80,12 +79,14 @@ const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                         field.onChange(`${field.value} ${emoji}`)
                       }
                     />
-                    <button type="submit">
-                      <SendHorizonalIcon
-                        type="submit"
-                        className="text-zinc-500 transition hover:text-zinc-600 dark:text-zinc-300 dark:hover:text-zinc-400"
-                      />
-                    </button>
+                    {field.value && (
+                      <button type="submit">
+                        <SendHorizonalIcon
+                          type="submit"
+                          className="text-zinc-500 transition hover:text-zinc-600 dark:text-zinc-300 dark:hover:text-zinc-400"
+                        />
+                      </button>
+                    )}
                   </div>
                 </div>
               </FormControl>
