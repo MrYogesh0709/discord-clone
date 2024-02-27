@@ -1,6 +1,6 @@
 'use client'
 
-import { Plus, Send, SendHorizonalIcon, SendIcon } from 'lucide-react'
+import { Plus, SendHorizonalIcon } from 'lucide-react'
 
 import qs from 'query-string'
 import axios from 'axios'
@@ -14,7 +14,6 @@ import { ChatInputSchema, chatInputValues } from '@/lib/validation'
 import { Input } from '@/components/ui/input'
 import EmojiPicker from '@/components/emoji-picker'
 import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
-import { Button } from '../ui/button'
 
 interface ChatInputProps {
   apiUrl: string
